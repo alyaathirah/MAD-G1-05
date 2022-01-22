@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:title="Home"
+        android:icon="@drawable/ic_baseline_home"/>
+    <item
+        android:id="@+id/recipeListFragment"
+        android:title="Recipe List"
+        android:icon="@drawable/ic_baseline_article"/>
+    <item
+        android:id="@+id/ingredientListFragment"
+        android:title="Ingredient List"
+        android:icon="@drawable/ic_baseline_shopping_bag"/>
+    <item
+        android:id="@+id/userProfileFragment"
+        android:title="Profile"
+        android:icon="@drawable/ic_baseline_person"/>
+</menu>
