@@ -104,7 +104,7 @@ public class RecipeFragment extends Fragment {
 
         //fatini
         ButterKnife.bind(getActivity());
-        setupActionBar();
+//        setupActionBar();
 
 
         //SETUP FAB BUTTON
