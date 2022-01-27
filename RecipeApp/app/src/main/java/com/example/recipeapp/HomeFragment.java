@@ -1,5 +1,6 @@
 package com.example.recipeapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,12 +60,34 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+//        return inflater.inflate(R.layout.fragment_home, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        LinearLayout recipeList = (LinearLayout) view.findViewById(R.id.recipe_list);
+        View recipeCard = LayoutInflater.from(getActivity()).inflate(R.layout.recipe_card, container, false);
+        for(int i=0; i<5; i++){
+            recipeList.addView(LayoutInflater.from(getActivity()).inflate(R.layout.recipe_card, container, false));
+        }
+
+//        TextView textView = (TextView) view.findViewById(R.id.my_image);
+
+//        LinearLayout starLayout = (LinearLayout) view.findViewById(R.id.star_layout);
+//        List<ImageView> star = new ArrayList<>();
+//        starLayout.setBackgroundColor(Color.TRANSPARENT);
+//        for(int i=0; i<5; i++){
+//            star.add(new ImageView(getActivity()));
+//            star.get(i).setImageResource(R.drawable.ic_star);
+//            starLayout.addView(star.get(i));
+//        }
+
+        return view;
     }
 }
