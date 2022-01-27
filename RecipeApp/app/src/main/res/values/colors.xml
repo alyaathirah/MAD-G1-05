@@ -11,4 +11,16 @@
     <color name="light_gold">#FFAD974F</color>
     <color name="intellectual_grey">#FF231F20</color>
     <color name="light_grey">#FFEAEAEA</color>
+
+<!--    fatini-->
+    <color name="colorPrimary">#FF7D00</color>
+    <color name="colorPrimaryDark">#E85D04</color>
+    <color name="colorAccent">#FF9E00</color>
+    <color name="colorNull">#00000000</color>
+    <color name="colorIcons">#7C7F81</color>
+    <color name="colorPrimaryText">#1e1e1e</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWhiteDark">#DFDFDF</color>
+    <color name="colorPrimaryLight">#CA7474</color>
+    <color name="colorBackground">#F4F7F7</color>
 </resources>
