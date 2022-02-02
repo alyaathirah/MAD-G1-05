@@ -446,7 +446,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginRight="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="100dp"
             android:src="@drawable/ic_share_white"
             android:backgroundTint="#FF009688"/>
 
@@ -456,7 +456,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginRight="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="100dp"
             android:src="@drawable/ic_favorite_shadow"
             android:backgroundTint="#FF009688"/>
 
@@ -466,7 +466,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginRight="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="100dp"
             android:src="@drawable/ic_baseline_question_answer_24"
             android:backgroundTint="#FF009688"/>
 
@@ -477,7 +477,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="100dp"
             app:backgroundTint="#960000"
             app:srcCompat="@drawable/ic_baseline_add_24"
             android:layout_marginRight="30dp" />

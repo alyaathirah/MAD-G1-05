@@ -15,6 +15,23 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase DB) {
         DB.execSQL("create Table Userdetails(name TEXT primary key, contact TEXT, dob TEXT)");
+
+        DB.execSQL("create Table user(user_id INTEGER primary key, username TEXT, email TEXT, phone TEXT, address TEXT, password TEXT, image TEXT)");
+
+        DB.execSQL("create Table list_shopping(sl_id INTEGER primary key, user_id INTEGER, foreign key(user_id) references user(user_id))");
+        DB.execSQL("create Table list_ingredient(il_id INTEGER primary key, user_id INTEGER, foreign key(user_id) references user(user_id))");
+
+        DB.execSQL("create Table item_stock(stock_id INTEGER primary key, image TEXT default null, name TEXT, price DECIMAL, weight DECIMAL)");
+        DB.execSQL("create Table item_shopping(itemshop_id INTEGER primary key, qty INTEGER, subprice DECIMAL, stock_id INTEGER, sl_id INTEGER," +
+                    "foreign key(stock_id) references item_stock(stock_id))" +
+                    "foreign key(sl_id) references list_shopping(sl_id))");
+
+        DB.execSQL("create Table item_ingredient(iteming_id INTEGER primary key, name TEXT, weight DECIMAL)");
+
+        DB.execSQL("create Table recipe(recipe_id INTEGER primary key, name TEXT, description TEXT, steps TEXT, rating INTEGER, image TEXT)");
+        DB.execSQL("create Table recipe_ingredient(ir_id INTEGER primary key, name TEXT, weight DECIMAL, recipe_id INTEGER, " +
+                   "foreign key(recipe_id) references recipe(recipe_id))");
+
     }
     @Override
     public void onUpgrade(SQLiteDatabase DB, int i, int ii) {
