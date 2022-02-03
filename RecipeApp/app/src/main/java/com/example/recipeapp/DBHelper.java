@@ -34,7 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
         //RECIPE TABLES
         DB.execSQL("create Table recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT, user_id INTEGER," +
                     "foreign key(user_id) references user(user_id) )");
-        DB.execSQL("create Table recipe_ingredient(ir_id INTEGER, name TEXT, weight DECIMAL, recipe_id INTEGER, " +
+        DB.execSQL("create Table recipe_ingredient(ir_id INTEGER, name TEXT, quantity DECIMAL, unit TEXT, recipe_id INTEGER, " +
                     "primary key(recipe_id, ir_id)," +
                     "foreign key(recipe_id) references recipe(recipe_id))");
         DB.execSQL("create Table step(recipe_id INTEGER, step_id INTEGER, text TEXT," +
@@ -55,7 +55,7 @@ public class DBHelper extends SQLiteOpenHelper {
         DB.execSQL("delete from "+ "recipe_ingredient");
         DB.execSQL("delete from "+ "step");
     }
-    public Boolean createRecipe(String name, String description, double rating, String image, String[] steps, String[] ingredients, double[] weight)
+    public Boolean createRecipe(String name, String description, double rating, String image, String url, String[] steps, String[] ingredients, double[] quantity, String[] unit)
     {//recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT)
         SQLiteDatabase DB = this.getWritableDatabase();
 //        resetTables(DB);
@@ -80,7 +80,7 @@ public class DBHelper extends SQLiteOpenHelper {
             ingreContent.put("recipe_id", result);
             ingreContent.put("ir_id", i);
             ingreContent.put("name", ingredients[i]);
-            ingreContent.put("weight", weight[i]);
+            ingreContent.put("quantity", quantity[i]);
             DB.insert("recipe_ingredient", null, ingreContent);
         }
         //add steps
