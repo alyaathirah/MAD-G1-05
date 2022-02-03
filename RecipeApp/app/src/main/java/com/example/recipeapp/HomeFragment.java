@@ -21,7 +21,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-
+    DBHelper DB;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -68,7 +68,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_home, container, false);
-
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         LinearLayout recipeList1 = (LinearLayout) view.findViewById(R.id.recipe_sublist1);
