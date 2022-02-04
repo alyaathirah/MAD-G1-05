@@ -1,5 +1,7 @@
 package com.example.recipeapp;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,21 +65,34 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+    public void setDB(){
 
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        DB = new DBHelper(getActivity());
+//        Intent intent = getActivity().getIntent();
+//        DB = (DBHelper) intent.getSerializableExtra("object");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
+        //need image, name, rating, difficulty, duration
+        Cursor cursor = DB.getRecipeAll();
+        ArrayList<Integer> recipe_id = new ArrayList<>();
+        ArrayList<String> recipe_name = new ArrayList<>();
+        ArrayList<String> recipe_rating = new ArrayList<>();
+        while(cursor.moveToNext()){//every row
+            recipe_id.add(Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("recipe_id"))));
+            recipe_name.add(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+            recipe_rating.add(cursor.getString(cursor.getColumnIndexOrThrow("rating")));
+        }
         LinearLayout recipeList1 = (LinearLayout) view.findViewById(R.id.recipe_sublist1);
         LinearLayout recipeList2 = (LinearLayout) view.findViewById(R.id.recipe_sublist2);
-        for(int i=0; i<15; i++){
+        for(int i=0; i<recipe_id.size(); i++){
             View recipeCard = LayoutInflater.from(getActivity()).inflate(R.layout.recipe_card, container, false);
             TextView name = (TextView)recipeCard.findViewById(R.id.recipe_name);
-            name.setText("Recipe Name "+i);
+            name.setText("Recipe Name "+recipe_name.get(i));
 
             if(i%2 == 0) {
                 recipeList1.addView(recipeCard);
@@ -97,10 +113,10 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 //                    Toast.makeText(getContext(), String.valueOf(finalI), Toast.LENGTH_LONG).show();
-                    TestFragment testFragment = new TestFragment();
-                    testFragment.setRecipeID(finalI);
+                    RecipeFragment testFragment = new RecipeFragment();
+                    testFragment.setRecipeID(finalI); //send recipeID
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.home_container, testFragment); // f2_container is your FrameLayout container
+                    ft.replace(R.id.home_container, testFragment); // home_container is your FrameLayout container
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     ft.addToBackStack(null);
                     ft.commit();

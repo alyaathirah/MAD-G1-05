@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
  * create an instance of this fragment.
  */
 public class RecipeFragment extends Fragment {
+    private int recipeID = 0;
     IngredientsRecord ingredientsRecord;
     double totalPrice;
     TextView TVTotal;
@@ -95,7 +96,9 @@ public class RecipeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    public void setRecipeID(int finalI) {
+        recipeID = finalI;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -227,6 +230,10 @@ public class RecipeFragment extends Fragment {
                 gotoUrl("https://www.youtube.com/watch?v=2K_GE4dMRrM");
             }
         });
+
+        //alya
+        TextView recipeName = view.findViewById(R.id.TVFoodName);
+        recipeName.setText("Recipe Name "+recipeID);
         return view;
     }
 

@@ -3,7 +3,7 @@ Ratatouille
 Ratatouille is a bright and chunky summer vegetable stew, rich with olive oil and fragrant with garlic and herbs.
 4.63
 ratatouille.jpg
-url
+https://tasty.co/recipe/ratatouille
 .ingredient
 eggplants,2,
 roma tomatoes,6,
