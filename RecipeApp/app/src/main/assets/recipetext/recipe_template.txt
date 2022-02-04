@@ -1,0 +1,12 @@
+.recipe
+name
+description
+rating
+image file name
+url video
+.ingredient
+ing1,quantity,unit
+ing2,quantity,unit
+.steps
+step1
+step2
