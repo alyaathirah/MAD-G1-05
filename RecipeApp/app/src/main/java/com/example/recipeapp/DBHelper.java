@@ -25,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase DB) {
         DB.execSQL("drop Table if exists Recipe");
-        DB.execSQL("create Table Userdetails(name TEXT primary key , contact TEXT, dob TEXT)");
+//        DB.execSQL("create Table Userdetails(name TEXT primary key , contact TEXT, dob TEXT)");
 
         //USER TABLES
         DB.execSQL("create Table user(user_id INTEGER primary key AUTOINCREMENT, username TEXT, email TEXT, phone TEXT, address TEXT, password TEXT, image TEXT)");

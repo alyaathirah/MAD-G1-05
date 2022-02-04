@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +69,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_home, container, false);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         LinearLayout recipeList1 = (LinearLayout) view.findViewById(R.id.recipe_sublist1);
@@ -89,6 +90,22 @@ public class HomeFragment extends Fragment {
                 spacing.setMinimumHeight(20);
                 recipeList2.addView(spacing);
             }
+
+            //set onclick on recipeCard layout
+            int finalI = i;
+            recipeCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Toast.makeText(getContext(), String.valueOf(finalI), Toast.LENGTH_LONG).show();
+                    TestFragment testFragment = new TestFragment();
+                    testFragment.setRecipeID(finalI);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.home_container, testFragment); // f2_container is your FrameLayout container
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    ft.addToBackStack(null);
+                    ft.commit();
+                }
+            });
         }
 
 

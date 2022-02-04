@@ -6,7 +6,7 @@
     android:background="@color/light_gold"
     tools:showIn="@layout/activity_main" >
 
-    <ImageView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_foreground" />
+<!--    <ImageView android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/ic_launcher_foreground" />-->
 </FrameLayout>

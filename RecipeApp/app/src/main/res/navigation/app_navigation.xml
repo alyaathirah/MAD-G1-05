@@ -45,4 +45,9 @@
         android:name="com.example.recipeapp.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="com.example.recipeapp.TestFragment"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_test" />
 </navigation>

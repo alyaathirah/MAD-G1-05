@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.fragment);
 
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
         DB = new DBHelper(this);
         String[] steps = {"step1", "step2", "step3", "step4"};
         String[] ingredients = {"flour", "chicken", "oil","cheese","chilli powder"};
