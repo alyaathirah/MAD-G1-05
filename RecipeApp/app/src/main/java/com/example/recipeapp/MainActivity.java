@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     NavController navController;
@@ -28,5 +30,12 @@ public class MainActivity extends AppCompatActivity {
         double[] quantity = {500, 1000, 10, 5, 0.5};
         String[] units = {"g","g","g","g","g"};
         DB.createRecipe("String name", "String description",4.5, "String image",null, steps, ingredients, quantity, units);
+
+        try {
+            DB.loadRecipe(getAssets().open("recipetext/recipe.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }

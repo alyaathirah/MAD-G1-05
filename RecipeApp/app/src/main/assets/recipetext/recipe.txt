@@ -1,22 +1,23 @@
+//recipe
 Ratatouille
 Ratatouille is a bright and chunky summer vegetable stew, rich with olive oil and fragrant with garlic and herbs.
 4.63
 ratatouille.png
 url
 //ingredient
-eggplants,2
-roma tomatoes,
-yellow squashes,2
-zuchinnis,2
-olive oil,2tbsp
-onion,1
-garlic cloves,4
-red bell pepper,1
-yellow bell pepper,1
-salt,0
-pepper,0
-can of crushed tomatoes,795g
-chopped fresh basil,2tbsp
+eggplants,2,
+roma tomatoes,6,
+yellow squashes,2,
+zuchinnis,2,
+olive oil,2,tbsp
+onion,1,
+garlic cloves,4,
+red bell pepper,1,
+yellow bell pepper,1,
+salt,0,
+pepper,0,
+can of crushed tomatoes,795,g
+chopped fresh basil,2,tbsp
 //steps
 Preheat the oven for 375˚F (190˚C).
 Slice the eggplant, tomatoes, squash, and zucchini into approximately ¹⁄₁₆-inch (1-mm) rounds, then set aside.

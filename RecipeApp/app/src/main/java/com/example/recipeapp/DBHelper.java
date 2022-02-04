@@ -5,8 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context) {
@@ -34,7 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
         //RECIPE TABLES
         DB.execSQL("create Table recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT, user_id INTEGER," +
                     "foreign key(user_id) references user(user_id) )");
-        DB.execSQL("create Table recipe_ingredient(ir_id INTEGER, name TEXT, quantity DECIMAL, unit TEXT, recipe_id INTEGER, " +
+        DB.execSQL("create Table recipe_ingredient(ir_id INTEGER, name TEXT, quantity DECIMAL, recipe_id INTEGER, unit TEXT," +
                     "primary key(recipe_id, ir_id)," +
                     "foreign key(recipe_id) references recipe(recipe_id))");
         DB.execSQL("create Table step(recipe_id INTEGER, step_id INTEGER, text TEXT," +
@@ -59,9 +69,6 @@ public class DBHelper extends SQLiteOpenHelper {
     {//recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT)
         SQLiteDatabase DB = this.getWritableDatabase();
 //        resetTables(DB);
-        //complete reset
-//        DB.execSQL("delete from "+ "recipe_ingredient");
-//        DB.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + "recipe_ingredient" + "'");
 
         ContentValues contentValues = new ContentValues();
 
@@ -97,7 +104,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //get recipe table
         Cursor cursor = DB.rawQuery("Select * from recipe where recipe_id = "+result, null);
-        System.out.println("HELLO");
 
         while(cursor.moveToNext()){
             System.out.println("Id :"+cursor.getString(0)+"\n");
@@ -132,53 +138,42 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     }
+    public Cursor getRecipe(int recipeID){
+        SQLiteDatabase DB = this.getWritableDatabase();
+        Cursor cursor = DB.rawQuery("Select * from recipe where recipe_id = "+recipeID, null);
+        return cursor;
+    }
+    public Cursor getSteps(int recipeID){
+        SQLiteDatabase DB = this.getWritableDatabase();
+        Cursor cursor = DB.rawQuery("Select * from step where recipe_id = "+recipeID, null);
+        return cursor;
+    }
+    public Cursor getIngredients(int recipeID){
+        SQLiteDatabase DB = this.getWritableDatabase();
+        Cursor cursor = DB.rawQuery("Select * from recipe_ingredient where recipe_id = "+recipeID, null);
+        return cursor;
+    }
 
-    public Boolean insertuserdata(String name, String contact, String dob)
-    {
+    public void loadRecipe(InputStream p) {
         SQLiteDatabase DB = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name", name);
-        contentValues.put("contact", contact);
-        contentValues.put("dob", dob);
-        long result=DB.insert("Userdetails", null, contentValues);
-        if(result==-1){
-            return false;
-        }else{
-            return true;
-        }
-    }
-    public Boolean updateuserdata(String name, String contact, String dob)
-    {
-        SQLiteDatabase DB = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("contact", contact);
-        contentValues.put("dob", dob);
-        Cursor cursor = DB.rawQuery("Select * from Userdetails where name = ?", new String[]{name});
-        if (cursor.getCount() > 0) {
-            long result = DB.update("Userdetails", contentValues, "name=?", new String[]{name});
-            if (result == -1) {
-                return false;
-            } else {
-                return true;
+        //read from file
+        InputStream is = p;
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
+        while (true) {
+            try {
+                if (!((line = br.readLine()) != null)) break;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } else {
-            return false;
+            System.out.println(line);
         }
-    }
-    public Boolean deletedata (String name)
-    {
-        SQLiteDatabase DB = this.getWritableDatabase();
-        Cursor cursor = DB.rawQuery("Select * from Userdetails where name = ?", new String[]{name});
-        if (cursor.getCount() > 0) {
-            long result = DB.delete("Userdetails", "name=?", new String[]{name});
-            if (result == -1) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
+        try {
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
     public Cursor getdata ()
