@@ -88,6 +88,7 @@ public class DBHelper extends SQLiteOpenHelper {
             ingreContent.put("ir_id", i);
             ingreContent.put("name", ingredients[i]);
             ingreContent.put("quantity", quantity[i]);
+            ingreContent.put("unit", unit[i]);
             DB.insert("recipe_ingredient", null, ingreContent);
         }
         //add steps
@@ -99,36 +100,10 @@ public class DBHelper extends SQLiteOpenHelper {
             stepContent.put("text", steps[i]);
             DB.insert("step", null, stepContent);
         }
+        getRecipe((int) result);
+        getSteps((int) result);
+        getIngredients((int) result);
 
-
-
-        //get recipe table
-        Cursor cursor = DB.rawQuery("Select * from recipe where recipe_id = "+result, null);
-
-        while(cursor.moveToNext()){
-            System.out.println("Id :"+cursor.getString(0)+"\n");
-            System.out.println("Name :"+cursor.getString(1)+"\n");
-            System.out.println("Desc :"+cursor.getString(2)+"\n");
-            System.out.println("Steps :"+cursor.getString(3)+"\n");
-            System.out.println("Rating :"+cursor.getString(4)+"\n");
-            System.out.println("Image :"+cursor.getString(5)+"\n");
-        }
-        cursor = DB.rawQuery("Select * from step where recipe_id = "+result, null);
-        while(cursor.moveToNext()){
-            System.out.println();
-            System.out.println("Recipe Id :"+cursor.getString(0)+"\n");
-            System.out.println("Step Id :"+cursor.getString(1)+"\n");
-            System.out.println("Step Text :"+cursor.getString(2)+"\n");
-        }
-
-        cursor = DB.rawQuery("Select * from recipe_ingredient where recipe_id = "+result, null);
-        while(cursor.moveToNext()){
-            System.out.println();
-            System.out.println("Table Id :"+cursor.getString(0)+"\n");
-            System.out.println("Name :"+cursor.getString(1)+"\n");
-            System.out.println("Weight :"+cursor.getString(2)+"\n");
-            System.out.println("Recipe Id :"+cursor.getString(3)+"\n");
-        }
 
         if(result==-1){
             return false;
@@ -141,16 +116,45 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getRecipe(int recipeID){
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("Select * from recipe where recipe_id = "+recipeID, null);
+
+        while(cursor.moveToNext()){
+            System.out.println("Id :"+cursor.getString(0)+"\n");
+            System.out.println("Name :"+cursor.getString(1)+"\n");
+            System.out.println("Desc :"+cursor.getString(2)+"\n");
+            System.out.println("Steps :"+cursor.getString(3)+"\n");
+            System.out.println("Rating :"+cursor.getString(4)+"\n");
+            System.out.println("Image :"+cursor.getString(5)+"\n");
+        }
+
         return cursor;
     }
     public Cursor getSteps(int recipeID){
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("Select * from step where recipe_id = "+recipeID, null);
+
+        while(cursor.moveToNext()){
+            System.out.println();
+            System.out.println("Recipe Id :"+cursor.getString(0)+"\n");
+            System.out.println("Step Id :"+cursor.getString(1)+"\n");
+            System.out.println("Step Text :"+cursor.getString(2)+"\n");
+        }
+
         return cursor;
     }
     public Cursor getIngredients(int recipeID){
+//        ir_id INTEGER, name TEXT, quantity DECIMAL, recipe_id INTEGER, unit TEXT
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("Select * from recipe_ingredient where recipe_id = "+recipeID, null);
+
+        while(cursor.moveToNext()){
+            System.out.println();
+            System.out.println("IR Id :"+cursor.getString(0)+"\n");
+            System.out.println("Name :"+cursor.getString(1)+"\n");
+            System.out.println("Quantity :"+cursor.getString(2)+"\n");
+            System.out.println("Unit :"+cursor.getString(4)+"\n");
+            System.out.println("Recipe Id :"+cursor.getString(3)+"\n");
+        }
+
         return cursor;
     }
 

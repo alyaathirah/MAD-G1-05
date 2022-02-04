@@ -71,21 +71,24 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         LinearLayout recipeList1 = (LinearLayout) view.findViewById(R.id.recipe_sublist1);
-        View recipeCard = LayoutInflater.from(getActivity()).inflate(R.layout.recipe_card, container, false);
-        for(int i=0; i<5; i++){
-            recipeList1.addView(LayoutInflater.from(getActivity()).inflate(R.layout.recipe_card, container, false));
-            View spacing = new View(getActivity());
-            spacing.setMinimumHeight(20);
-            recipeList1.addView(spacing);
-        }
-
-
         LinearLayout recipeList2 = (LinearLayout) view.findViewById(R.id.recipe_sublist2);
-        for(int i=0; i<5; i++){
-            recipeList2.addView(LayoutInflater.from(getActivity()).inflate(R.layout.recipe_card, container, false));
-            View spacing = new View(getActivity());
-            spacing.setMinimumHeight(20);
-            recipeList2.addView(spacing);
+        for(int i=0; i<15; i++){
+            View recipeCard = LayoutInflater.from(getActivity()).inflate(R.layout.recipe_card, container, false);
+            TextView name = (TextView)recipeCard.findViewById(R.id.recipe_name);
+            name.setText("Recipe Name "+i);
+
+            if(i%2 == 0) {
+                recipeList1.addView(recipeCard);
+                View spacing = new View(getActivity());
+                spacing.setMinimumHeight(20);
+                recipeList1.addView(spacing);
+            }
+            else{
+                recipeList2.addView(recipeCard);
+                View spacing = new View(getActivity());
+                spacing.setMinimumHeight(20);
+                recipeList2.addView(spacing);
+            }
         }
 
 
