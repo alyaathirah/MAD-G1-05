@@ -290,19 +290,19 @@ public class DBHelper extends SQLiteOpenHelper{
         if(filePath.contains(".jpg") || filePath.contains(".jpeg"))
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int maxSize = 100;
-        float bitmapRatio = (float)width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
+//        int width = bitmap.getWidth();
+//        int height = bitmap.getHeight();
+//        int maxSize = 100;
+//        float bitmapRatio = (float)width / (float) height;
+//        if (bitmapRatio > 1) {
+//            width = maxSize;
+//            height = (int) (width / bitmapRatio);
+//        } else {
+//            height = maxSize;
+//            width = (int) (height * bitmapRatio);
+//        }
 
-        bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+//        bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
         byte[] bArray = bos.toByteArray();
 
         return bArray;
