@@ -143,22 +143,9 @@ public class HomeFragment extends Fragment {
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     ft.addToBackStack(null);
                     ft.commit();
-
                 }
             });
         }
-
-
-//        TextView textView = (TextView) view.findViewById(R.id.my_image);
-
-//        LinearLayout starLayout = (LinearLayout) view.findViewById(R.id.star_layout);
-//        List<ImageView> star = new ArrayList<>();
-//        starLayout.setBackgroundColor(Color.TRANSPARENT);
-//        for(int i=0; i<5; i++){
-//            star.add(new ImageView(getActivity()));
-//            star.get(i).setImageResource(R.drawable.ic_star);
-//            starLayout.addView(star.get(i));
-//        }
 
         return view;
     }

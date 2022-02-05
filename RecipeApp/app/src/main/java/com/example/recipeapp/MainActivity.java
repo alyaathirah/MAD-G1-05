@@ -34,12 +34,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
 
-//        String[] steps = {"step1", "step2", "step3", "step4"};
-//        String[] ingredients = {"flour", "chicken", "oil","cheese","chilli powder"};
-//        double[] quantity = {500, 1000, 10, 5, 0.5};
-//        String[] units = {"g","g","g","g","g"};
-//        DB.createRecipe("String name", "String description",4.5, "String image",null, steps, ingredients, quantity, units);
-
 
     }
 //    void createBasicRecipe(){
