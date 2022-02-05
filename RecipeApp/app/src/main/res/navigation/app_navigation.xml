@@ -50,4 +50,14 @@
         android:name="com.example.recipeapp.TestFragment"
         android:label="fragment_test"
         tools:layout="@layout/fragment_test" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.recipeapp.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.recipeapp.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
 </navigation>

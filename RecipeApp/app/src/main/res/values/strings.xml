@@ -21,4 +21,15 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
+<!--    ahmed-->
+    <string name="swipe_left_for_register">Swipe Left for Register</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="e_mail">Email</string>
+    <string name="tag">Let\'s join us and \nBuild your relationship with others</string>
+    <string name="swipe_right_for_login">Swipe Right for Login</string>
+    <string name="register">Register</string>
+    <string name="re_type_password">Re-type Password</string>
+    <string name="your_name">Full Name</string>
 </resources>

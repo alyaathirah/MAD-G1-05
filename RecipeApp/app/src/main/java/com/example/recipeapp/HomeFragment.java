@@ -94,9 +94,6 @@ public class HomeFragment extends Fragment {
 
             byte[] byteImage = cursor.getBlob(cursor.getColumnIndexOrThrow("image"));
             recipe_image.add(BitmapFactory.decodeByteArray(byteImage, 0 ,byteImage.length));
-
-//            if(recipe_id.size() > 5)
-//                break;
         }
         LinearLayout recipeList1 = (LinearLayout) view.findViewById(R.id.recipe_sublist1);
         LinearLayout recipeList2 = (LinearLayout) view.findViewById(R.id.recipe_sublist2);

@@ -9,36 +9,60 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper{
-    private static DBHelper mInstance = null;
-    Context context;
-    public DBHelper(Context context) {
+    private static DBHelper mInstance;
+    static Context context;
+    SQLiteDatabase DB = this.getWritableDatabase();
+    private DBHelper(Context context) {
         super(context, "Recipe.db", null, 1);
         this.context = context;
-    }
-    public static DBHelper getInstance(Context ctx) {
-        if (mInstance == null) {
-            mInstance = new DBHelper(ctx.getApplicationContext());
+        if(checkTableEmpty()) {
+            createBasicRecipe();
+            createTestUser();
 
         }
-        if(doesDatabaseExist(ctx, "Recipe.db") == false)
-            mInstance.createBasicRecipe(ctx);
+    }
+    public static synchronized DBHelper getInstance(Context ctx) {
+        if (mInstance == null) {
+            mInstance = new DBHelper(ctx.getApplicationContext());
+        }
+//        if(doesDatabaseExist("Recipe.db") == false) {
+//            mInstance.createBasicRecipe();
+//            mInstance.createTestUser();
+//        }
+
+
         return mInstance;
     }
-    private static boolean doesDatabaseExist(Context context, String dbName) { //prevent multiple creation of basic recipes
+    public static DBHelper getInstance(){
+        return mInstance;
+    }
+    boolean checkTableEmpty(){
+        Cursor cursor = getRecipeAll();
+        if (cursor != null && cursor.getCount() > 0) {
+            return false;
+        }
+        return true;
+    }
+    private static boolean doesDatabaseExist(String dbName) { //prevent multiple creation of basic recipes
         File dbFile = context.getDatabasePath(dbName);
         return dbFile.exists();
     }
-
-    void createBasicRecipe(Context context){
+    void createTestUser(){
+        createUser("test","test@email.com", "test");
+    }
+    void createBasicRecipe(){
         String[] files = {"ratatouille.txt","easy_italian_sausage_spaghetti.txt","gourmet_mushroom _risotto.txt","homemade_lasagna.txt"};
 //        String[] files = {"ratatouille.txt"};
         for(int i=0; i<files.length; i++) {
@@ -102,23 +126,47 @@ public class DBHelper extends SQLiteOpenHelper{
     public SQLiteDatabase getDB(){
         return this.getWritableDatabase();
     }
-    public Boolean createUser(String username, String email, String password){
-        SQLiteDatabase DB = this.getWritableDatabase();
+    public int createUser(String username, String email, String password){
         ContentValues contentValues = new ContentValues();
         contentValues.put("username", username);
         contentValues.put("email", email);
         contentValues.put("password", password);
-        long result=DB.insert("recipe", null, contentValues); //returns user_id
+        long result=DB.insert("user", null, contentValues); //returns user_id
 
-        if(result==-1){
-            return false;
-        }else{
+        Cursor cursor = DB.rawQuery("Select * from user", null);
+
+        while(cursor.moveToNext()){
+            System.out.println(cursor.getString(cursor.getColumnIndexOrThrow("username")));
+            System.out.println(cursor.getString(cursor.getColumnIndexOrThrow("email")));
+            System.out.println(cursor.getString(cursor.getColumnIndexOrThrow("password")));
+        }
+
+        return (int)result;
+    }
+    public Cursor getUser(String email){
+        Cursor cursor = DB.rawQuery("Select * from user where email = '"+email+"' ORDER BY user_id limit 1", null);
+        return cursor;
+    }
+    public Boolean checkPassword(String email, String password){
+        Cursor cursor = DB.rawQuery("Select * from user where email = '"+email+"' ORDER BY user_id limit 1", null);
+        String dbPassword = "";
+        while(cursor.moveToNext()){
+            dbPassword = cursor.getString(cursor.getColumnIndexOrThrow("password"));
+        }
+        if(password.equals(dbPassword))
+            return true;
+
+        return false;
+    }
+    public Boolean checkEmailExist(String email){
+        Cursor cursor = DB.rawQuery("Select * from user where email = '"+email+"' ORDER BY user_id limit 1", null);
+        if (cursor != null && cursor.getCount() > 0) {
             return true;
         }
+        return false;
     }
     public Boolean createRecipe(String name, String description, double rating, byte[] image, String url, int duration, String difficulty, String tags, String[] steps, String[] ingredients, double[] quantity, String[] unit)
     {//recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT,duration INTEGER, difficulty INTEGER, tags TEXT)
-        SQLiteDatabase DB = this.getWritableDatabase();
 //        resetTables(DB);
 
         ContentValues contentValues = new ContentValues();
@@ -176,10 +224,15 @@ public class DBHelper extends SQLiteOpenHelper{
         long result=DB.insert("liked_recipe", null, contentValues); //returns liked_id
         getLikedRecipes(userID);//test
     }
-    public Cursor getLikedRecipes(int userID){//return all recipe_id
+    public ArrayList<Integer> getLikedRecipes(int userID){//return all recipe_id
         SQLiteDatabase DB = this.getWritableDatabase();
-        Cursor cursor = DB.rawQuery("Select * from recipe where recipe.recipe_id = liked_recipe.recipe_id and user_id = "+userID, null);
-        return cursor;
+        Cursor cursor = DB.rawQuery("Select * from liked_recipe where user_id = "+userID, null);
+
+        ArrayList<Integer> recipeID = new ArrayList<>();
+        while(cursor.moveToNext()){
+            recipeID.add(cursor.getInt(cursor.getColumnIndexOrThrow("recipe_id")));
+        }
+        return recipeID;
     }
     public Cursor getRecipe(int recipeID){
         SQLiteDatabase DB = this.getWritableDatabase();
@@ -189,7 +242,6 @@ public class DBHelper extends SQLiteOpenHelper{
     public Cursor getRecipeAll(){
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("Select * from recipe", null);
-//        Cursor cursor = DB.rawQuery("Select * from recipe where recipe_id < 2", null);
         return cursor;
     }
 
