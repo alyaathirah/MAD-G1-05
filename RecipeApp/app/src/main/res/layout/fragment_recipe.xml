@@ -49,10 +49,9 @@
                         app:layout_collapseMode="parallax" />
 
                     <ImageView
-                        android:id="@+id/picture_food"
+                        android:id="@+id/IVFood"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:saveEnabled="true"
                         android:scaleType="fitXY"
                         android:src="@drawable/sample_honeygarlic" />
 

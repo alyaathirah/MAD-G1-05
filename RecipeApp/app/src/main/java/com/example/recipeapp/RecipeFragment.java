@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -25,6 +29,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -77,6 +82,8 @@ public class RecipeFragment extends Fragment {
     private String recipe_difficulty;
     private Integer recipe_duration;
     String recipe_description;
+    Bitmap recipe_image;
+
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -121,6 +128,7 @@ public class RecipeFragment extends Fragment {
         //get database and cursor alya
         DB = DBHelper.getInstance(getActivity());
         Cursor cursor = DB.getRecipe(recipeID);
+
         while(cursor.moveToNext()){//every row
             recipe_id = (Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("recipe_id"))));
             recipe_name = (cursor.getString(cursor.getColumnIndexOrThrow("name")));
@@ -128,6 +136,13 @@ public class RecipeFragment extends Fragment {
             recipe_difficulty = (cursor.getString(cursor.getColumnIndexOrThrow("difficulty")));
             recipe_duration = (Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("duration"))));
             recipe_description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+
+            byte[] byteImage = cursor.getBlob(cursor.getColumnIndexOrThrow("image"));
+            Bitmap recipe_image = BitmapFactory.decodeByteArray(byteImage, 0 ,byteImage.length);
+
+            ImageView foodImage = view.findViewById(R.id.IVFood);
+            foodImage.setImageBitmap(recipe_image);
+
         }
         //get steps from database by calling recipe id
         ArrayList<String> step_text = new ArrayList<>();
@@ -149,6 +164,10 @@ public class RecipeFragment extends Fragment {
             stepText.setPadding(30, 10, 80, 10);
             steplist.addView(stepText);
         }
+
+
+
+
 
         //fatini
         ButterKnife.bind(getActivity());
@@ -283,6 +302,9 @@ public class RecipeFragment extends Fragment {
         TextView descDetails = view.findViewById(R.id.TVDescDetails);
         descDetails.setText(recipe_description);
         return view;
+
+
+
     }
 
 
