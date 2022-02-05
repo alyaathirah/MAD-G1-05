@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,9 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -125,7 +128,26 @@ public class RecipeFragment extends Fragment {
             recipe_difficulty = (cursor.getString(cursor.getColumnIndexOrThrow("difficulty")));
             recipe_duration = (Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("duration"))));
             recipe_description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
-            
+        }
+        //get steps from database by calling recipe id
+        ArrayList<String> step_text = new ArrayList<>();
+        ArrayList<Integer> step_id = new ArrayList<>();
+        cursor = DB.getSteps(recipeID);
+        while(cursor.moveToNext()){//multiple row of steps
+            step_id.add(cursor.getInt(cursor.getColumnIndexOrThrow("step_id")));
+            step_text.add(cursor.getString(cursor.getColumnIndexOrThrow("text")));
+        }
+        //input steps in instructions list
+        LinearLayout steplist = view.findViewById(R.id.step_list_layout);
+        for(int i=0; i<step_id.size(); i++){
+            TextView stepText = new TextView(getActivity());
+            stepText.setText((step_id.get(i)+1)+". "+step_text.get(i));
+            stepText.setTextColor(getResources().getColor(R.color.colorPrimaryText));
+            stepText.setTextSize(14);
+
+            stepText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            stepText.setPadding(30, 10, 80, 10);
+            steplist.addView(stepText);
         }
 
         //fatini

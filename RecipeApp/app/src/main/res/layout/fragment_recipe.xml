@@ -208,6 +208,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/ingredient_list_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -328,6 +329,7 @@
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
+                    android:id="@+id/step_list_layout"
                     android:layout_width="392dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -336,73 +338,32 @@
 
 
                     //INSTRUCTIONS STARTED
+
                     <TextView
                         android:id="@+id/TVInstruction"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:paddingLeft="14dp"
-                        android:paddingRight="30dp"
                         android:layout_marginBottom="20dp"
+                        android:paddingLeft="14dp"
+                        android:paddingRight="14dp"
                         android:text="INSTRUCTIONS"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="14dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="14dp"
-                        android:paddingBottom="5dp"
-                        android:text="1. Split chicken breast in half"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14sp" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:paddingLeft="14dp"-->
+<!--                        android:paddingTop="5dp"-->
+<!--                        android:paddingRight="14dp"-->
+<!--                        android:paddingBottom="5dp"-->
+<!--                        android:text="1. Split chicken breast in half"-->
+<!--                        android:textColor="@color/colorPrimaryText"-->
+<!--                        android:textSize="14sp" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="14dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="14dp"
-                        android:paddingBottom="5dp"
-                        android:text="2. Dust chicken with flour"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="14dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="14dp"
-                        android:paddingBottom="5dp"
-                        android:text="3. Sear chicken, add butter, garlic, vinegar, etc"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="14dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="14dp"
-                        android:paddingBottom="5dp"
-                        android:text="4. Simmer until the sauce thickens."
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="14dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="14dp"
-                        android:paddingBottom="5dp"
-                        android:text="5. Turn chicken to coat in the amazing honey garlic sauce."
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -431,7 +392,11 @@
                     android:drawableLeft="@drawable/ic_play" />
 
             </LinearLayout>
+            <Space
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
     //FAB
