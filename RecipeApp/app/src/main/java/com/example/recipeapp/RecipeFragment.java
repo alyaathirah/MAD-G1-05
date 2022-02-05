@@ -73,6 +73,7 @@ public class RecipeFragment extends Fragment {
     private Double recipe_rating;
     private String recipe_difficulty;
     private Integer recipe_duration;
+    String recipe_description;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -123,6 +124,8 @@ public class RecipeFragment extends Fragment {
             recipe_rating = (Double.parseDouble(cursor.getString(cursor.getColumnIndexOrThrow("rating"))));
             recipe_difficulty = (cursor.getString(cursor.getColumnIndexOrThrow("difficulty")));
             recipe_duration = (Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("duration"))));
+            recipe_description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+            
         }
 
         //fatini
@@ -254,6 +257,9 @@ public class RecipeFragment extends Fragment {
         //alya
         TextView recipeName = view.findViewById(R.id.TVFoodName);
         recipeName.setText(recipe_name);
+
+        TextView descDetails = view.findViewById(R.id.TVDescDetails);
+        descDetails.setText(recipe_description);
         return view;
     }
 
