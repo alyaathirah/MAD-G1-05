@@ -2,6 +2,8 @@ package com.example.recipeapp;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -82,12 +84,19 @@ public class HomeFragment extends Fragment {
         ArrayList<Double> recipe_rating = new ArrayList<>();
         ArrayList<String> recipe_difficulty = new ArrayList<>();
         ArrayList<Integer> recipe_duration = new ArrayList<>();
+        ArrayList<Bitmap> recipe_image = new ArrayList<>();
         while(cursor.moveToNext()){//every row
             recipe_id.add(Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("recipe_id"))));
             recipe_name.add(cursor.getString(cursor.getColumnIndexOrThrow("name")));
             recipe_rating.add(Double.parseDouble(cursor.getString(cursor.getColumnIndexOrThrow("rating"))));
             recipe_difficulty.add(cursor.getString(cursor.getColumnIndexOrThrow("difficulty")));
             recipe_duration.add(Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("duration"))));
+
+            byte[] byteImage = cursor.getBlob(cursor.getColumnIndexOrThrow("image"));
+            recipe_image.add(BitmapFactory.decodeByteArray(byteImage, 0 ,byteImage.length));
+
+//            if(recipe_id.size() > 5)
+//                break;
         }
         LinearLayout recipeList1 = (LinearLayout) view.findViewById(R.id.recipe_sublist1);
         LinearLayout recipeList2 = (LinearLayout) view.findViewById(R.id.recipe_sublist2);
@@ -116,6 +125,9 @@ public class HomeFragment extends Fragment {
             //set duration
             TextView duration = (TextView)recipeCard.findViewById(R.id.cooking_duration);
             duration.setText(recipe_duration.get(i).toString()+" mins");
+            //set image
+            ImageView imageFood = (ImageView)recipeCard.findViewById(R.id.recipe_image);
+            imageFood.setImageBitmap(recipe_image.get(i));
 
             if(i%2 == 0) {
                 recipeList1.addView(recipeCard);

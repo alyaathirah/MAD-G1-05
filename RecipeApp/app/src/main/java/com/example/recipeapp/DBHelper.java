@@ -1,32 +1,28 @@
 package com.example.recipeapp;
 
-import java.io.Serializable;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class DBHelper extends SQLiteOpenHelper{
     private static DBHelper mInstance = null;
+    Context context;
     public DBHelper(Context context) {
         super(context, "Recipe.db", null, 1);
+        this.context = context;
     }
     public static DBHelper getInstance(Context ctx) {
         if (mInstance == null) {
@@ -44,6 +40,7 @@ public class DBHelper extends SQLiteOpenHelper{
 
     void createBasicRecipe(Context context){
         String[] files = {"ratatouille.txt","easy_italian_sausage_spaghetti.txt","gourmet_mushroom _risotto.txt","homemade_lasagna.txt"};
+//        String[] files = {"ratatouille.txt"};
         for(int i=0; i<files.length; i++) {
             try {
                 loadRecipe(context.getAssets().open("recipetext/"+files[i]));
@@ -80,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper{
         DB.execSQL("create Table item_ingredient(iteming_id INTEGER primary key, name TEXT, weight DECIMAL)");
 
         //RECIPE TABLES
-        DB.execSQL("create Table recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT, user_id INTEGER, url TEXT, duration INTEGER, difficulty INTEGER, tags TEXT," +
+        DB.execSQL("create Table recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image BLOB, user_id INTEGER, url TEXT, duration INTEGER, difficulty INTEGER, tags TEXT," +
                     "foreign key(user_id) references user(user_id) )");
         DB.execSQL("create Table recipe_ingredient(ir_id INTEGER, name TEXT, quantity DECIMAL, recipe_id INTEGER, unit TEXT," +
                     "primary key(recipe_id, ir_id)," +
@@ -105,7 +102,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public SQLiteDatabase getDB(){
         return this.getWritableDatabase();
     }
-    public Boolean createRecipe(String name, String description, double rating, String image, String url, int duration, String difficulty, String tags, String[] steps, String[] ingredients, double[] quantity, String[] unit)
+    public Boolean createRecipe(String name, String description, double rating, byte[] image, String url, int duration, String difficulty, String tags, String[] steps, String[] ingredients, double[] quantity, String[] unit)
     {//recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT,duration INTEGER, difficulty INTEGER, tags TEXT)
         SQLiteDatabase DB = this.getWritableDatabase();
 //        resetTables(DB);
@@ -178,6 +175,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public Cursor getRecipeAll(){
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("Select * from recipe", null);
+//        Cursor cursor = DB.rawQuery("Select * from recipe where recipe_id < 2", null);
         return cursor;
     }
 
@@ -250,7 +248,8 @@ public class DBHelper extends SQLiteOpenHelper{
         String name = recipeArr.get(0);
         String description = recipeArr.get(1);
         double rating = Double.parseDouble(recipeArr.get(2));
-        String image = recipeArr.get(3);
+        byte[] image = convertImageToBlob(recipeArr.get(3));
+
         String url = recipeArr.get(4);
         int duration = Integer.parseInt(recipeArr.get(5));
         String difficulty = recipeArr.get(6);
@@ -275,6 +274,39 @@ public class DBHelper extends SQLiteOpenHelper{
         createRecipe(name, description, rating, image, url, duration,  difficulty,  tags, steps, ingredients, quantity, unit);
     }
 
+    public byte[] convertImageToBlob(String filePath){
+        AssetManager assetManager = context.getAssets();
+        InputStream istr;
+        Bitmap bitmap = null;
+        try {
+            istr = assetManager.open("images/"+filePath);
+            bitmap = BitmapFactory.decodeStream(istr);
+        } catch (IOException e) {
+            // handle exception
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        if(filePath.contains(".png"))
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        if(filePath.contains(".jpg") || filePath.contains(".jpeg"))
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int maxSize = 100;
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+        byte[] bArray = bos.toByteArray();
+
+        return bArray;
+    }
     public Cursor getdata ()
     {
         SQLiteDatabase DB = this.getWritableDatabase();
