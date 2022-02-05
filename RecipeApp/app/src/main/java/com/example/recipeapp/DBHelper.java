@@ -58,7 +58,7 @@ public class DBHelper extends SQLiteOpenHelper{
 //        DB.execSQL("create Table Userdetails(name TEXT primary key , contact TEXT, dob TEXT)");
 
         //USER TABLES
-        DB.execSQL("create Table user(user_id INTEGER primary key AUTOINCREMENT, username TEXT, email TEXT, phone TEXT, address TEXT, password TEXT, image TEXT)");
+        DB.execSQL("create Table user(user_id INTEGER primary key AUTOINCREMENT, username TEXT, email TEXT, password TEXT, image TEXT)");
 
         //SHOPPING LIST TABLES
         DB.execSQL("create Table list_shopping(sl_id INTEGER primary key, user_id INTEGER, foreign key(user_id) references user(user_id))");
@@ -102,6 +102,20 @@ public class DBHelper extends SQLiteOpenHelper{
     public SQLiteDatabase getDB(){
         return this.getWritableDatabase();
     }
+    public Boolean createUser(String username, String email, String password){
+        SQLiteDatabase DB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("username", username);
+        contentValues.put("email", email);
+        contentValues.put("password", password);
+        long result=DB.insert("recipe", null, contentValues); //returns user_id
+
+        if(result==-1){
+            return false;
+        }else{
+            return true;
+        }
+    }
     public Boolean createRecipe(String name, String description, double rating, byte[] image, String url, int duration, String difficulty, String tags, String[] steps, String[] ingredients, double[] quantity, String[] unit)
     {//recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT,duration INTEGER, difficulty INTEGER, tags TEXT)
         SQLiteDatabase DB = this.getWritableDatabase();
@@ -141,9 +155,9 @@ public class DBHelper extends SQLiteOpenHelper{
             stepContent.put("text", steps[i]);
             DB.insert("step", null, stepContent);
         }
-        getRecipe((int) result);
-        getSteps((int) result);
-        getIngredients((int) result);
+//        getRecipe((int) result);
+//        getSteps((int) result);
+//        getIngredients((int) result);
 
 
         if(result==-1){
