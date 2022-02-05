@@ -72,7 +72,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        DB = new DBHelper(getActivity());
+//        DB = new DBHelper(getActivity());
+        DB = DBHelper.getInstance(getActivity());
 //        Intent intent = getActivity().getIntent();
 //        DB = (DBHelper) intent.getSerializableExtra("object");
         // Inflate the layout for this fragment
@@ -81,29 +82,54 @@ public class HomeFragment extends Fragment {
         Cursor cursor = DB.getRecipeAll();
         ArrayList<Integer> recipe_id = new ArrayList<>();
         ArrayList<String> recipe_name = new ArrayList<>();
-        ArrayList<String> recipe_rating = new ArrayList<>();
+        ArrayList<Double> recipe_rating = new ArrayList<>();
+        ArrayList<String> recipe_difficulty = new ArrayList<>();
+        ArrayList<Integer> recipe_duration = new ArrayList<>();
         while(cursor.moveToNext()){//every row
             recipe_id.add(Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("recipe_id"))));
             recipe_name.add(cursor.getString(cursor.getColumnIndexOrThrow("name")));
-            recipe_rating.add(cursor.getString(cursor.getColumnIndexOrThrow("rating")));
+            recipe_rating.add(Double.parseDouble(cursor.getString(cursor.getColumnIndexOrThrow("rating"))));
+            recipe_difficulty.add(cursor.getString(cursor.getColumnIndexOrThrow("difficulty")));
+            recipe_duration.add(Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("duration"))));
         }
         LinearLayout recipeList1 = (LinearLayout) view.findViewById(R.id.recipe_sublist1);
         LinearLayout recipeList2 = (LinearLayout) view.findViewById(R.id.recipe_sublist2);
         for(int i=0; i<recipe_id.size(); i++){
             View recipeCard = LayoutInflater.from(getActivity()).inflate(R.layout.recipe_card, container, false);
+            //set recipe name
             TextView name = (TextView)recipeCard.findViewById(R.id.recipe_name);
-            name.setText("Recipe Name "+recipe_name.get(i));
+            name.setText(recipe_name.get(i));
+            //set rating
+            LinearLayout starLayout = (LinearLayout)recipeCard.findViewById(R.id.star_layout);
+            List<ImageView> star = new ArrayList<>();
+            starLayout.setBackgroundColor(Color.TRANSPARENT);
+            for(int j=0; j<5; j++){
+                star.add(new ImageView(getActivity()));
+                if(recipe_rating.get(i) - j >= 1)
+                    star.get(j).setImageResource(R.drawable.ic_star);
+                else if(recipe_rating.get(i) - j > 0)
+                    star.get(j).setImageResource(R.drawable.ic_star_half);
+                else
+                    star.get(j).setImageResource(R.drawable.ic_star_border);
+                starLayout.addView(star.get(j));
+            }
+            //set difficulty
+            TextView difficulty = (TextView)recipeCard.findViewById(R.id.difficulty);
+            difficulty.setText(recipe_difficulty.get(i));
+            //set duration
+            TextView duration = (TextView)recipeCard.findViewById(R.id.cooking_duration);
+            duration.setText(recipe_duration.get(i).toString()+" mins");
 
             if(i%2 == 0) {
                 recipeList1.addView(recipeCard);
                 View spacing = new View(getActivity());
-                spacing.setMinimumHeight(20);
+                spacing.setMinimumHeight(30);
                 recipeList1.addView(spacing);
             }
             else{
                 recipeList2.addView(recipeCard);
                 View spacing = new View(getActivity());
-                spacing.setMinimumHeight(20);
+                spacing.setMinimumHeight(30);
                 recipeList2.addView(spacing);
             }
 

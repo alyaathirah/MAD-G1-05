@@ -4,6 +4,9 @@ The flavor of spaghetti and meatballs, without the hassle of making meatballs!
 5.00
 nameeasy_italian_sausage_spaghetti.jpg
 https://youtu.be/c0aIsuxJlbg
+45
+Easy
+spaghetti,italian
 .ingredient
 olive oil,1,tbsp
 sweet Italian sausage,900,g

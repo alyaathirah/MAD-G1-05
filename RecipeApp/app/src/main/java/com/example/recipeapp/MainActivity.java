@@ -21,9 +21,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DB = new DBHelper(this);
+//        DB = new DBHelper(this);
+        DB = DBHelper.getInstance(this);
 //        createBasicRecipe();
-        DB.createBasicRecipe(this);
+//        DB.createBasicRecipe(this);
 //        Intent intent = new Intent(this, HomeFragment.class);
 //        intent.putExtra("object", DB);
 

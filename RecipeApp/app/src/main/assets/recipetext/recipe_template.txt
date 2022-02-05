@@ -4,6 +4,9 @@ description
 rating
 image file name
 url video
+duration
+difficulty
+tags
 .ingredient
 ing1,quantity,unit
 ing2,quantity,unit

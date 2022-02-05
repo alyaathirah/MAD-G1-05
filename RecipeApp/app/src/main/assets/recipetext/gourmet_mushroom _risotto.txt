@@ -4,6 +4,9 @@ Authentic Italian-style risotto cooked the slow and painful way, but oh so worth
 4.00
 Gourmet Mushroom Risotto.jpg
 https://www.allrecipes.com/recipe/85389/gourmet-mushroom-risotto/
+50
+Medium
+risotto,mushroom
 .ingredient
 chicken broth,6,cups
 olive oil,3,tbsp,

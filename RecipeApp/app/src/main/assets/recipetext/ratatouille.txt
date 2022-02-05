@@ -4,6 +4,9 @@ Ratatouille is a bright and chunky summer vegetable stew, rich with olive oil an
 4.63
 ratatouille.jpg
 https://tasty.co/recipe/ratatouille
+90
+Hard
+ratatouille,french,disney
 .ingredient
 eggplants,2,
 roma tomatoes,6,

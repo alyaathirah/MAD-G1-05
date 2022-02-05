@@ -21,10 +21,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include
-                layout="@layout/titlebar"
+<!--            <include-->
+<!--                layout="@layout/titlebar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent" />-->
+
+
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="80dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

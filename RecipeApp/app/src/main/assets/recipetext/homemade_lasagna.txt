@@ -4,6 +4,9 @@ This is my mom's special homemade lasagna recipe with made from scratch tomato s
 4.89
 homemade_lasagna.jpg
 https://www.allrecipes.com/recipe/19344/homemade-lasagna/
+105
+Medium
+lasagna,homemade,italian
 .ingredient
 lasagna noodles,1,pack
 ground pork,225,g

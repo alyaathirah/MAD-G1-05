@@ -28,9 +28,22 @@ public class DBHelper extends SQLiteOpenHelper{
     public DBHelper(Context context) {
         super(context, "Recipe.db", null, 1);
     }
+    public static DBHelper getInstance(Context ctx) {
+        if (mInstance == null) {
+            mInstance = new DBHelper(ctx.getApplicationContext());
+
+        }
+        if(doesDatabaseExist(ctx, "Recipe.db") == false)
+            mInstance.createBasicRecipe(ctx);
+        return mInstance;
+    }
+    private static boolean doesDatabaseExist(Context context, String dbName) { //prevent multiple creation of basic recipes
+        File dbFile = context.getDatabasePath(dbName);
+        return dbFile.exists();
+    }
 
     void createBasicRecipe(Context context){
-        String[] files = {"ratatouille.txt"};
+        String[] files = {"ratatouille.txt","easy_italian_sausage_spaghetti.txt","gourmet_mushroom _risotto.txt","homemade_lasagna.txt"};
         for(int i=0; i<files.length; i++) {
             try {
                 loadRecipe(context.getAssets().open("recipetext/"+files[i]));
@@ -40,9 +53,11 @@ public class DBHelper extends SQLiteOpenHelper{
         }
 
     }
+
     @Override
     public void onCreate(SQLiteDatabase DB) { //one time only
-        DB.execSQL("drop Table if exists Recipe");
+
+//        DB.execSQL("drop Table if exists Recipe");
 //        DB.execSQL("create Table Userdetails(name TEXT primary key , contact TEXT, dob TEXT)");
 
         //USER TABLES
@@ -65,7 +80,7 @@ public class DBHelper extends SQLiteOpenHelper{
         DB.execSQL("create Table item_ingredient(iteming_id INTEGER primary key, name TEXT, weight DECIMAL)");
 
         //RECIPE TABLES
-        DB.execSQL("create Table recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT, user_id INTEGER," +
+        DB.execSQL("create Table recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT, user_id INTEGER, url TEXT, duration INTEGER, difficulty INTEGER, tags TEXT," +
                     "foreign key(user_id) references user(user_id) )");
         DB.execSQL("create Table recipe_ingredient(ir_id INTEGER, name TEXT, quantity DECIMAL, recipe_id INTEGER, unit TEXT," +
                     "primary key(recipe_id, ir_id)," +
@@ -90,8 +105,8 @@ public class DBHelper extends SQLiteOpenHelper{
     public SQLiteDatabase getDB(){
         return this.getWritableDatabase();
     }
-    public Boolean createRecipe(String name, String description, double rating, String image, String url, String[] steps, String[] ingredients, double[] quantity, String[] unit)
-    {//recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT)
+    public Boolean createRecipe(String name, String description, double rating, String image, String url, int duration, String difficulty, String tags, String[] steps, String[] ingredients, double[] quantity, String[] unit)
+    {//recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image TEXT,duration INTEGER, difficulty INTEGER, tags TEXT)
         SQLiteDatabase DB = this.getWritableDatabase();
 //        resetTables(DB);
 
@@ -101,6 +116,10 @@ public class DBHelper extends SQLiteOpenHelper{
         contentValues.put("description", description);
         contentValues.put("rating", rating);
         contentValues.put("image", image);
+        contentValues.put("url", url);
+        contentValues.put("duration", duration);
+        contentValues.put("difficulty", difficulty);
+        contentValues.put("tags", tags);
 
         long result=DB.insert("recipe", null, contentValues); //returns recipe_id
         System.out.println("ID: " +result);
@@ -233,6 +252,9 @@ public class DBHelper extends SQLiteOpenHelper{
         double rating = Double.parseDouble(recipeArr.get(2));
         String image = recipeArr.get(3);
         String url = recipeArr.get(4);
+        int duration = Integer.parseInt(recipeArr.get(5));
+        String difficulty = recipeArr.get(6);
+        String tags = recipeArr.get(7);
 
         String[] steps = stepArr.toArray(new String[stepArr.size()]);
 
@@ -250,7 +272,7 @@ public class DBHelper extends SQLiteOpenHelper{
                 continue;
             }
         }
-        createRecipe(name, description, rating, image, url, steps, ingredients, quantity, unit);
+        createRecipe(name, description, rating, image, url, duration,  difficulty,  tags, steps, ingredients, quantity, unit);
     }
 
     public Cursor getdata ()
