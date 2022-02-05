@@ -3,6 +3,7 @@ package com.example.recipeapp;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -34,6 +35,7 @@ import butterknife.ButterKnife;
  * create an instance of this fragment.
  */
 public class RecipeFragment extends Fragment {
+    DBHelper DB;
     private int recipeID = 0;
     IngredientsRecord ingredientsRecord;
     double totalPrice;
@@ -65,6 +67,12 @@ public class RecipeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Integer recipe_id;
+    private String recipe_name;
+    private Double recipe_rating;
+    private String recipe_difficulty;
+    private Integer recipe_duration;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -102,8 +110,20 @@ public class RecipeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recipe, container, false);
+
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_recipe, container, false);
+
+        //get database and cursor alya
+        DB = DBHelper.getInstance(getActivity());
+        Cursor cursor = DB.getRecipe(recipeID);
+        while(cursor.moveToNext()){//every row
+            recipe_id = (Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("recipe_id"))));
+            recipe_name = (cursor.getString(cursor.getColumnIndexOrThrow("name")));
+            recipe_rating = (Double.parseDouble(cursor.getString(cursor.getColumnIndexOrThrow("rating"))));
+            recipe_difficulty = (cursor.getString(cursor.getColumnIndexOrThrow("difficulty")));
+            recipe_duration = (Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("duration"))));
+        }
 
         //fatini
         ButterKnife.bind(getActivity());
@@ -233,7 +253,7 @@ public class RecipeFragment extends Fragment {
 
         //alya
         TextView recipeName = view.findViewById(R.id.TVFoodName);
-        recipeName.setText("Recipe Name "+recipeID);
+        recipeName.setText(recipe_name);
         return view;
     }
 

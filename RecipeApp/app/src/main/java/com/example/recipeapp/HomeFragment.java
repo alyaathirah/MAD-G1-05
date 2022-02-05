@@ -72,10 +72,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        DB = new DBHelper(getActivity());
         DB = DBHelper.getInstance(getActivity());
-//        Intent intent = getActivity().getIntent();
-//        DB = (DBHelper) intent.getSerializableExtra("object");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         //need image, name, rating, difficulty, duration
@@ -140,12 +137,13 @@ public class HomeFragment extends Fragment {
                 public void onClick(View v) {
 //                    Toast.makeText(getContext(), String.valueOf(finalI), Toast.LENGTH_LONG).show();
                     RecipeFragment testFragment = new RecipeFragment();
-                    testFragment.setRecipeID(finalI); //send recipeID
+                    testFragment.setRecipeID(recipe_id.get(finalI)); //send recipeID
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.home_container, testFragment); // home_container is your FrameLayout container
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     ft.addToBackStack(null);
                     ft.commit();
+
                 }
             });
         }
