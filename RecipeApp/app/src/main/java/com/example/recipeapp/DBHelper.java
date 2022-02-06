@@ -127,13 +127,11 @@ public class DBHelper extends SQLiteOpenHelper{
         contentValues.put("password", password);
         long result=DB.insert("user", null, contentValues); //returns user_id
 
-        Cursor cursor = DB.rawQuery("Select * from user", null);
-
-        while(cursor.moveToNext()){
-            System.out.println(cursor.getString(cursor.getColumnIndexOrThrow("username")));
-            System.out.println(cursor.getString(cursor.getColumnIndexOrThrow("email")));
-            System.out.println(cursor.getString(cursor.getColumnIndexOrThrow("password")));
-        }
+        //create ingredient list
+        contentValues = new ContentValues();
+        contentValues.put("il_id", result);
+        contentValues.put("user_id", result);
+        DB.insert("list_ingredient", null, contentValues); //returns user_id
 
         return (int)result;
     }
