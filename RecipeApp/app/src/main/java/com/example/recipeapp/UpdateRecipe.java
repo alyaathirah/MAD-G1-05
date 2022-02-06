@@ -67,7 +67,6 @@ public class UpdateRecipe extends AppCompatActivity {
     }
 
     public void btnSelectimage(View view) {
-
         Intent photoPicker = new Intent(Intent.ACTION_PICK);
         photoPicker.setType("image/*");
         startActivityForResult(photoPicker, 1);

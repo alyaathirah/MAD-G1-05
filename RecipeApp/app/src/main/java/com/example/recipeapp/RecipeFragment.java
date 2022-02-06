@@ -83,6 +83,7 @@ public class RecipeFragment extends Fragment {
     private Double recipe_rating;
     private String recipe_difficulty;
     private Integer recipe_duration;
+    private String recipe_url;
     String recipe_description;
     Bitmap recipe_image;
 
@@ -139,6 +140,7 @@ public class RecipeFragment extends Fragment {
             recipe_difficulty = (cursor.getString(cursor.getColumnIndexOrThrow("difficulty")));
             recipe_duration = (Integer.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("duration"))));
             recipe_description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+            recipe_url = cursor.getString(cursor.getColumnIndexOrThrow("url"));
 
             byte[] byteImage = cursor.getBlob(cursor.getColumnIndexOrThrow("image"));
             Bitmap recipe_image = BitmapFactory.decodeByteArray(byteImage, 0 ,byteImage.length);
@@ -276,7 +278,6 @@ public class RecipeFragment extends Fragment {
         ratingStar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-
                 int rate = (int) rating;
                 String message = null;
 
@@ -338,7 +339,7 @@ public class RecipeFragment extends Fragment {
         BtnYoutube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoUrl("https://www.youtube.com/watch?v=2K_GE4dMRrM");
+                gotoUrl(recipe_url);
             }
         });
 
@@ -350,10 +351,7 @@ public class RecipeFragment extends Fragment {
         descDetails.setText(recipe_description);
         return view;
 
-
-
     }
-
 
     private void gotoUrl(String s) {
         Uri uri = Uri.parse(s);
@@ -446,5 +444,10 @@ public class RecipeFragment extends Fragment {
         totalPrice = ingredientsRecord.getButter() + ingredientsRecord.getFlour() + ingredientsRecord.getChicken()
                 + ingredientsRecord.getGarlic() + ingredientsRecord.getHoney() + ingredientsRecord.getSoySos();
         return format.format(totalPrice);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
     }
 }

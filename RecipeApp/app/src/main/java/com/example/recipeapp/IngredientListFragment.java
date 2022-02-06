@@ -88,47 +88,6 @@ public class IngredientListFragment extends Fragment {
         ingredientlist = view.findViewById(R.id.ingredient_list_user);
 
         cursor = DB.getIngredientList(user.id);
-//        while(cursor.moveToNext()){//multiple row of steps
-//            ingredient_id.add(cursor.getInt(cursor.getColumnIndexOrThrow("iteming_id")));
-//            ingredient_name.add(cursor.getString(cursor.getColumnIndexOrThrow("name")));
-//            ingredient_quantity.add(cursor.getDouble(cursor.getColumnIndexOrThrow("quantity")));
-//            ingredient_unit.add(cursor.getString(cursor.getColumnIndexOrThrow("unit")));
-//        }
-//
-//        checkBoxes = new ArrayList<>();
-//        for(int i=0; i<ingredient_id.size(); i++){
-//            CheckBox checkBox = new CheckBox(getActivity());
-//            checkBox.setPadding(20,5,20,5);
-//            checkBox.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//            checkBox.setTextSize(16);
-//            DecimalFormat format = new DecimalFormat("0.#");
-//            if(ingredient_unit.get(i) == null)
-//                checkBox.setText(ingredient_name.get(i)+" "+format.format(ingredient_quantity.get(i)));
-//            else
-//                checkBox.setText(ingredient_name.get(i)+" "+format.format(ingredient_quantity.get(i))+" "+ingredient_unit.get(i));
-//
-//            checkBoxes.add(checkBox);
-//            ingredientlist.addView(checkBoxes.get(i));
-//        }
-
-        //SETUP ADD TO CART BUTTON
-        Button BtnClear = (Button) view.findViewById(R.id.BtnClearIng);
-        BtnClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DB.clearAllIngredients(user.id);
-                cursor = DB.getIngredientList(user.id);
-                showToast("INGREDIENT LIST CLEARED");
-            }
-        });
-
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        cursor = DB.getIngredientList(user.id);
         while(cursor.moveToNext()){//multiple row of steps
             ingredient_id.add(cursor.getInt(cursor.getColumnIndexOrThrow("iteming_id")));
             ingredient_name.add(cursor.getString(cursor.getColumnIndexOrThrow("name")));
@@ -151,6 +110,52 @@ public class IngredientListFragment extends Fragment {
             checkBoxes.add(checkBox);
             ingredientlist.addView(checkBoxes.get(i));
         }
+
+        //SETUP ADD TO CART BUTTON
+        Button BtnClear = (Button) view.findViewById(R.id.BtnClearIng);
+        BtnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DB.clearAllIngredients(user.id);
+                cursor = DB.getIngredientList(user.id);
+                showToast("INGREDIENT LIST CLEARED");
+                IngredientListFragment frg = new IngredientListFragment();
+                final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.detach(frg);
+                ft.attach(frg);
+                ft.commit();
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        cursor = DB.getIngredientList(user.id);
+//        while(cursor.moveToNext()){//multiple row of steps
+//            ingredient_id.add(cursor.getInt(cursor.getColumnIndexOrThrow("iteming_id")));
+//            ingredient_name.add(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+//            ingredient_quantity.add(cursor.getDouble(cursor.getColumnIndexOrThrow("quantity")));
+//            ingredient_unit.add(cursor.getString(cursor.getColumnIndexOrThrow("unit")));
+//        }
+//
+//        checkBoxes = new ArrayList<>();
+//        for(int i=0; i<ingredient_id.size(); i++){
+//            CheckBox checkBox = new CheckBox(getActivity());
+//            checkBox.setPadding(20,5,20,5);
+//            checkBox.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//            checkBox.setTextSize(16);
+//            DecimalFormat format = new DecimalFormat("0.#");
+//            if(ingredient_unit.get(i) == null)
+//                checkBox.setText(ingredient_name.get(i)+" "+format.format(ingredient_quantity.get(i)));
+//            else
+//                checkBox.setText(ingredient_name.get(i)+" "+format.format(ingredient_quantity.get(i))+" "+ingredient_unit.get(i));
+//
+//            checkBoxes.add(checkBox);
+//            ingredientlist.addView(checkBoxes.get(i));
+//        }
     }
 
     //TOAST FOR FAVORITE and ADD_TO_CART BUTTON

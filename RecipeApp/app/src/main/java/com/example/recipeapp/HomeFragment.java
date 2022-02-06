@@ -10,9 +10,11 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ import java.util.List;
  */
 public class HomeFragment extends Fragment {
     DBHelper DB;
+    Cursor cursor;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,6 +40,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Cursor cursorTemp;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -74,11 +78,18 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.home_container);
+//        while(fragment != null)
+//            getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+
+
         DB = DBHelper.getInstance(getActivity());
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         //need image, name, rating, difficulty, duration
-        Cursor cursor = DB.getRecipeAll();
+
+        cursor = DB.getRecipeAll();
+
         ArrayList<Integer> recipe_id = new ArrayList<>();
         ArrayList<String> recipe_name = new ArrayList<>();
         ArrayList<Double> recipe_rating = new ArrayList<>();
@@ -156,6 +167,32 @@ public class HomeFragment extends Fragment {
             });
         }
 
+        EditText search = view.findViewById(R.id.search);
+        search.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+//                    cursorTemp = DB.getRecipe(2);
+                    Toast.makeText(getActivity(), search.getText(), Toast.LENGTH_SHORT).show();
+                    // Reload current fragment\
+                    HomeFragment frg = new HomeFragment();
+                    final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.detach(frg);
+                    ft.attach(frg);
+                    ft.commit();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 }

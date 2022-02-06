@@ -84,13 +84,6 @@ public class DBHelper extends SQLiteOpenHelper{
         //USER TABLES
         DB.execSQL("create Table user(user_id INTEGER primary key AUTOINCREMENT, username TEXT, email TEXT, password TEXT, image TEXT)");
 
-        //SHOPPING LIST TABLES
-        DB.execSQL("create Table list_shopping(sl_id INTEGER primary key, user_id INTEGER, foreign key(user_id) references user(user_id))");
-        DB.execSQL("create Table item_stock(stock_id INTEGER primary key, image TEXT default null, name TEXT, price DECIMAL, weight DECIMAL)"); //items shop selling
-        DB.execSQL("create Table item_shopping(itemshop_id INTEGER primary key, qty INTEGER, subprice DECIMAL, stock_id INTEGER, sl_id INTEGER," +
-                    "foreign key(stock_id) references item_stock(stock_id), " +
-                    "foreign key(sl_id) references list_shopping(sl_id))");
-
         //LIKED RECIPE
         DB.execSQL("create Table liked_recipe(liked_id INTEGER primary key AUTOINCREMENT, user_id INTEGER, recipe_id INTEGER," +
                     "foreign key(user_id) references user(user_id)," +
@@ -236,13 +229,16 @@ public class DBHelper extends SQLiteOpenHelper{
         return recipeID;
     }
     public Cursor getRecipe(int recipeID){
-        SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("Select * from recipe where recipe_id = "+recipeID, null);
         return cursor;
     }
     public Cursor getRecipeAll(){
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("Select * from recipe", null);
+        return cursor;
+    }
+    public Cursor searchRecipe(String search){
+        Cursor cursor = DB.rawQuery("Select * from recipe where name = " + search + "or tags like '%" + search + "%''", null);
         return cursor;
     }
 

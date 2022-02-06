@@ -21,11 +21,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-<!--            <include-->
-<!--                layout="@layout/titlebar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent" />-->
-
 
             <Space
                 android:layout_width="match_parent"
@@ -79,6 +74,8 @@
         android:layout_marginBottom="5dp"
         android:background="@drawable/edit_text_border"
         android:hint="Search recipe"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:maxLines="1"
+        android:inputType="text"/>
 
 </FrameLayout>

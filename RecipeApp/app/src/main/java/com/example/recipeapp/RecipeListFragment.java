@@ -1,11 +1,13 @@
 package com.example.recipeapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.FloatRange;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -15,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,6 +164,15 @@ public class RecipeListFragment extends Fragment {
                 }
             });
         }
+        FloatingActionButton addRecipeBtn = view.findViewById(R.id.addRecipeButton);
+        addRecipeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //go Update recipe activity
+                Intent myIntent = new Intent(getActivity(), UpdateRecipe.class);
+                startActivity(myIntent);
+            }
+        });
 
         return view;
     }

@@ -16,25 +16,10 @@
         android:label="fragment_ingredient_list"
         tools:layout="@layout/fragment_ingredient_list" />
     <fragment
-        android:id="@+id/shoppingListFragment"
-        android:name="com.example.recipeapp.ShoppingListFragment"
-        android:label="fragment_shopping_list"
-        tools:layout="@layout/fragment_shopping_list" />
-    <fragment
         android:id="@+id/recipeFragment"
         android:name="com.example.recipeapp.RecipeFragment"
         android:label="fragment_recipe"
         tools:layout="@layout/fragment_recipe" />
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.example.recipeapp.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
-    <fragment
-        android:id="@+id/deliveryFragment"
-        android:name="com.example.recipeapp.DeliveryFragment"
-        android:label="fragment_delivery"
-        tools:layout="@layout/fragment_delivery" />
     <fragment
         android:id="@+id/recipeListFragment"
         android:name="com.example.recipeapp.RecipeListFragment"
@@ -45,11 +30,6 @@
         android:name="com.example.recipeapp.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
-    <fragment
-        android:id="@+id/testFragment"
-        android:name="com.example.recipeapp.TestFragment"
-        android:label="fragment_test"
-        tools:layout="@layout/fragment_test" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.recipeapp.LoginFragment"
