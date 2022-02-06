@@ -5,7 +5,7 @@ public class User { //singleton
     String username;
     String email;
     String password;
-    int id;
+    int id = -1;
 
     private User(){
 
@@ -21,5 +21,12 @@ public class User { //singleton
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public void clearData() {
+        id = -1;
+        username = null;
+        email = null;
+        password = null;
     }
 }

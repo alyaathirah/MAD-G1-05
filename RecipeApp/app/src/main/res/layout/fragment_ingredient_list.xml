@@ -5,10 +5,27 @@
     android:layout_height="match_parent"
     tools:context=".IngredientListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/ingredient_list_user"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Ingredient List fragment" />
+        android:layout_margin="40dp"
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ingredients List"
+            android:textSize="24sp"
+            android:textColor="@color/colorPrimaryDark"
+            />
+
+        <Button
+            android:id="@+id/BtnClearIng"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear Ingredients"
+            android:textSize="12sp" />
+    </LinearLayout>
 </FrameLayout>

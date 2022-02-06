@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -44,6 +45,7 @@ import butterknife.ButterKnife;
  */
 public class RecipeFragment extends Fragment {
     DBHelper DB;
+    User user;
     private int recipeID = 0;
     IngredientsRecord ingredientsRecord;
     double totalPrice;
@@ -127,6 +129,7 @@ public class RecipeFragment extends Fragment {
 
         //get database and cursor alya
         DB = DBHelper.getInstance(getActivity());
+        user = User.getInstance();
         Cursor cursor = DB.getRecipe(recipeID);
 
         while(cursor.moveToNext()){//every row
@@ -165,8 +168,50 @@ public class RecipeFragment extends Fragment {
             steplist.addView(stepText);
         }
 
+        //get ingredient from database by calling recipe id
+        ArrayList<Integer> ingredient_id = new ArrayList<>();
+        ArrayList<String> ingredient_name = new ArrayList<>();
+        ArrayList<Double> ingredient_quantity = new ArrayList<>();
+        ArrayList<String> ingredient_unit = new ArrayList<>();
 
+        cursor = DB.getIngredients(recipeID);
+        while(cursor.moveToNext()){//multiple row of steps
+            ingredient_id.add(cursor.getInt(cursor.getColumnIndexOrThrow("ir_id")));
+            ingredient_name.add(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+            ingredient_quantity.add(cursor.getDouble(cursor.getColumnIndexOrThrow("quantity")));
+            ingredient_unit.add(cursor.getString(cursor.getColumnIndexOrThrow("unit")));
+        }
 
+        LinearLayout ingredientlist = view.findViewById(R.id.ingredient_list_layout);
+        ArrayList<CheckBox> checkBoxes = new ArrayList<>();
+        for(int i=0; i<ingredient_id.size(); i++){
+            CheckBox checkBox = new CheckBox(getActivity());
+            checkBox.setPadding(20,5,20,5);
+            checkBox.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            checkBox.setTextSize(16);
+            DecimalFormat format = new DecimalFormat("0.#");
+            if(ingredient_unit.get(i) == null)
+                checkBox.setText(ingredient_name.get(i)+" "+format.format(ingredient_quantity.get(i)));
+            else
+                checkBox.setText(ingredient_name.get(i)+" "+format.format(ingredient_quantity.get(i))+" "+ingredient_unit.get(i));
+
+            checkBoxes.add(checkBox);
+            ingredientlist.addView(checkBoxes.get(i));
+        }
+
+        //SETUP ADD TO CART BUTTON
+        BtnAddToCart = (Button) view.findViewById(R.id.BtnAddToCart);
+        BtnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("ADDED TO INGREDIENT LIST");
+                for(int i=0; i<checkBoxes.size(); i++){
+                    if(checkBoxes.get(i).isChecked())
+                        DB.addIngredientToList(user.id, ingredient_id.get(i));
+                }
+            }
+        });
+        //click checkbox onclick alya
 
 
         //fatini
@@ -210,19 +255,21 @@ public class RecipeFragment extends Fragment {
         BtnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //alya
+                DB.addLikedRecipe(user.id, recipeID);
                 showToast("Add to Favorite");
             }
 
         });
 
-        //SETUP ADD TO CART BUTTON
-        BtnAddToCart = (Button) view.findViewById(R.id.BtnAddToCart);
-        BtnAddToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("ADDED TO CART");
-            }
-        });
+//        //SETUP ADD TO CART BUTTON
+//        BtnAddToCart = (Button) view.findViewById(R.id.BtnAddToCart);
+//        BtnAddToCart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showToast("ADDED TO CART");
+//            }
+//        });
 
         // SETUP RATING BAR
         ratingStar = view.findViewById(R.id.BarRate);
@@ -380,48 +427,15 @@ public class RecipeFragment extends Fragment {
 
         boolean checked = ((CheckBox) view).isChecked();
 
-        switch (view.getId()){
-            case R.id.CBChicken:
-                if (checked)
-                    ingredientsRecord.setChicken(9.30);
-                else
-                    ingredientsRecord.setChicken(0.0);
-                break;
-
-            case R.id.CBFlour:
-                if (checked)
-                    ingredientsRecord.setFlour(2.40);
-                else
-                    ingredientsRecord.setFlour(0.0);
-                break;
-
-            case R.id.CBGarlic:
-                if (checked)
-                    ingredientsRecord.setGarlic(2.00);
-                else
-                    ingredientsRecord.setGarlic(0.0);
-                break;
-
-            case R.id.CBHoney:
-                if (checked)
-                    ingredientsRecord.setHoney(12.00);
-                else
-                    ingredientsRecord.setHoney(0.0);
-                break;
-
-            case R.id.CBSoySos:
-                if (checked)
-                    ingredientsRecord.setSoySos(4.30);
-                else
-                    ingredientsRecord.setSoySos(0.0);
-                break;
-            case R.id.CBButter:
-                if (checked)
-                    ingredientsRecord.setButter(5.00);
-                else
-                    ingredientsRecord.setButter(0.0);
-                break;
-        }
+//        switch (view.getId()){
+//            case R.id.CBChicken:
+//                if (checked)
+//                    ingredientsRecord.setChicken(9.30);
+//                else
+//                    ingredientsRecord.setChicken(0.0);
+//                break;
+//
+//        }
 
         TVTotal.setText("TOTAL: RM " + calculateTotal());
 

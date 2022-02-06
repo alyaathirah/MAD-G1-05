@@ -208,73 +208,14 @@
 
                         <LinearLayout
                             android:id="@+id/ingredient_list_layout"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <CheckBox
-                                android:id="@+id/CBChicken"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
-                                android:clickable="true"
-                                android:onClick="onCheckboxClicked"
-                                android:text="500g Chicken Breast"
-                                android:textSize="14sp" />
+                            android:orientation="vertical"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
 
 
-                            <CheckBox
-                                android:id="@+id/CBFlour"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
-                                android:clickable="true"
-                                android:onClick="onCheckboxClicked"
-                                android:text="60g Flour"
-                                android:textSize="14sp" />
-
-
-                            <CheckBox
-                                android:id="@+id/CBGarlic"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/TVFlour"
-                                android:layout_margin="10dp"
-                                android:clickable="true"
-                                android:onClick="onCheckboxClicked"
-                                android:text="2 Garlic cloves"
-                                android:textSize="14sp" />
-
-                            <CheckBox
-                                android:id="@+id/CBHoney"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
-                                android:clickable="true"
-                                android:onClick="onCheckboxClicked"
-                                android:text="90g Honey"
-                                android:textSize="14sp" />
-
-                            <CheckBox
-                                android:id="@+id/CBSoySos"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
-                                android:clickable="true"
-                                android:onClick="onCheckboxClicked"
-                                android:text="1 tbsp Soy Sauce"
-                                android:textSize="14sp" />
-
-                            <CheckBox
-                                android:id="@+id/CBButter"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
-                                android:clickable="true"
-                                android:onClick="onCheckboxClicked"
-                                android:text="50g Unsalted Butter"
-                                android:textSize="14sp" />
 
                         </LinearLayout>
                     </RelativeLayout>

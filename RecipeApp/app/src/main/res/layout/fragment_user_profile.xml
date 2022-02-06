@@ -6,8 +6,114 @@
     tools:context=".UserProfileFragment">
 
     <TextView
-        android:id="@+id/profiletext"
+        android:id="@+id/logoutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_gravity="right"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Logout"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="150dp"
+        >
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/usericon" />
+
+        <TextView
+            android:id="@+id/pro_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Chef Young"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                tools:ignore="UseCompoundDrawables">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_person_24" />
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="User ID"
+                    android:textColor="#FF9E00"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/pro_userid"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="young"
+                    android:textColor="#605959"
+                    android:textSize="14sp"
+                    tools:layout_editor_absoluteX="242dp"
+                    tools:layout_editor_absoluteY="159dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                tools:ignore="UseCompoundDrawables">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_email_24" />
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textColor="#FF9E00"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/pro_emailid"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="young"
+                    android:textColor="#605959"
+                    android:textSize="14sp"
+                    tools:layout_editor_absoluteX="242dp"
+                    tools:layout_editor_absoluteY="159dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 </FrameLayout>

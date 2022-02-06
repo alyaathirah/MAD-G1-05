@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +17,7 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class UserProfileFragment extends Fragment {
-
+    User user = User.getInstance();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,10 +64,36 @@ public class UserProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
-        //go login activity
-        Intent myIntent = new Intent(getActivity(), LoginActivity.class);
-        startActivity(myIntent);
+        if(user.id == -1) {//if user null
+            //go login activity
+            Intent myIntent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(myIntent);
+        }
 
+        TextView usernameView = view.findViewById(R.id.pro_username);
+        usernameView.setText(user.username);
+        TextView userIDView = view.findViewById(R.id.pro_userid);
+        userIDView.setText(String.valueOf(user.id));
+        TextView emailView = view.findViewById(R.id.pro_emailid);
+        emailView.setText(user.email);
+
+        TextView logoutView = view.findViewById(R.id.logoutBtn);
+        logoutView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logOut();
+                showToast("Logged Out");
+                //go login activity
+                Intent myIntent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(myIntent);
+            }
+        });
         return view;
+    }
+    private void showToast(String message) {
+        Toast.makeText(this.getContext(),message,Toast.LENGTH_SHORT).show();
+    }
+    public void logOut(){
+        user.clearData();
     }
 }

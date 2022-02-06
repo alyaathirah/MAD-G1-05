@@ -98,7 +98,7 @@ public class DBHelper extends SQLiteOpenHelper{
 
         //INGREDIENT LIST TABLES
         DB.execSQL("create Table list_ingredient(il_id INTEGER primary key, user_id INTEGER, foreign key(user_id) references user(user_id))");
-        DB.execSQL("create Table item_ingredient(iteming_id INTEGER primary key, name TEXT, quantity DECIMAL, unit TEXT," +
+        DB.execSQL("create Table item_ingredient(iteming_id INTEGER primary key AUTOINCREMENT, name TEXT, quantity DECIMAL, unit TEXT, il_id INTEGER," +
                     "foreign key(il_id) references list_ingredient(il_id))");
 
         //RECIPE TABLES
@@ -381,13 +381,66 @@ public class DBHelper extends SQLiteOpenHelper{
         return cursor;
     }
 
-    public void addIngredientToList(int userID){
+    public void addIngredientToList(int userID, int irID){
 //        DB.execSQL("create Table list_ingredient(il_id INTEGER primary key, user_id INTEGER, foreign key(user_id) references user(user_id))");
 //        DB.execSQL("create Table item_ingredient(iteming_id INTEGER primary key, name TEXT, quantity DECIMAL, unit TEXT," +
 //                    "foreign key(il_id) references list_ingredient(il_id))");
+//        DB.execSQL("create Table recipe_ingredient(ir_id INTEGER, name TEXT, quantity DECIMAL, recipe_id INTEGER, unit TEXT," +
+//                "primary key(recipe_id, ir_id)," +
+//                "foreign key(recipe_id) references recipe(recipe_id))");
+        //get recipe ingredient
+        Cursor recipe_ing = DB.rawQuery("Select * from recipe_ingredient where ir_id = "+irID, null);
+        Cursor list_ing = DB.rawQuery("Select * from item_ingredient where il_id = "+userID, null);//check current list ingredients
+
+        String name = "";
+        double quantity = 0;
+        String unit = "";
+
+        //store recipe_ingredient first
+        while(recipe_ing.moveToNext()) {
+            name = (recipe_ing.getString(recipe_ing.getColumnIndexOrThrow("name")));
+            quantity = (recipe_ing.getDouble(recipe_ing.getColumnIndexOrThrow("quantity")));
+            unit = (recipe_ing.getString(recipe_ing.getColumnIndexOrThrow("unit")));
+        }
+
+        ContentValues contentValues = new ContentValues();
+        //store in available list if already exist
+        boolean itemAvailable = false;
+        while(list_ing.moveToNext()){
+            String list_name = list_ing.getString(list_ing.getColumnIndexOrThrow("name"));
+            String list_unit = list_ing.getString(list_ing.getColumnIndexOrThrow("unit"));
+
+            if(list_name.equalsIgnoreCase(name) && list_unit.equals(unit)){//store in available list ingredient
+                int list_id = list_ing.getInt(list_ing.getColumnIndexOrThrow("iteming_id"));
+                double addQuantity = list_ing.getDouble(list_ing.getColumnIndexOrThrow("quantity")) + quantity;
+                contentValues.put("quantity", addQuantity);
+                long result = DB.update("item_ingredient", contentValues, "iteming_id ="+list_id,null);
+                itemAvailable = true;
+
+            }
+        }
+        contentValues = new ContentValues();
+        if(itemAvailable == false){ //if not available
+            contentValues.put("name", name.toLowerCase());
+            contentValues.put("quantity", quantity);
+            contentValues.put("unit", unit);
+            contentValues.put("il_id", userID);
+            long result=DB.insert("item_ingredient", null, contentValues);
+        }
         Cursor cursor = DB.rawQuery("Select * from item_ingredient where il_id = "+userID, null);
-
-
+        while(cursor.moveToNext()) {
+            System.out.println(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+            System.out.println(cursor.getDouble(cursor.getColumnIndexOrThrow("quantity")));
+            System.out.println(cursor.getString(cursor.getColumnIndexOrThrow("unit")));
+        }
 
     }
+    public Cursor getIngredientList(int userID){
+        Cursor cursor = DB.rawQuery("Select * from item_ingredient where il_id = "+userID, null);
+        return cursor;
+    }
+    public void clearAllIngredients(int userID){
+        DB.execSQL("Delete from item_ingredient where il_id = "+userID);
+    }
+
 }
