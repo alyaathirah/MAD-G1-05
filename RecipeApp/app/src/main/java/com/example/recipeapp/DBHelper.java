@@ -98,7 +98,8 @@ public class DBHelper extends SQLiteOpenHelper{
 
         //INGREDIENT LIST TABLES
         DB.execSQL("create Table list_ingredient(il_id INTEGER primary key, user_id INTEGER, foreign key(user_id) references user(user_id))");
-        DB.execSQL("create Table item_ingredient(iteming_id INTEGER primary key, name TEXT, weight DECIMAL)");
+        DB.execSQL("create Table item_ingredient(iteming_id INTEGER primary key, name TEXT, quantity DECIMAL, unit TEXT," +
+                    "foreign key(il_id) references list_ingredient(il_id))");
 
         //RECIPE TABLES
         DB.execSQL("create Table recipe(recipe_id INTEGER primary key AUTOINCREMENT, name TEXT, description TEXT, rating INTEGER, image BLOB, user_id INTEGER, url TEXT, duration INTEGER, difficulty INTEGER, tags TEXT," +
@@ -378,5 +379,15 @@ public class DBHelper extends SQLiteOpenHelper{
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("Select * from Userdetails", null);
         return cursor;
+    }
+
+    public void addIngredientToList(int userID){
+//        DB.execSQL("create Table list_ingredient(il_id INTEGER primary key, user_id INTEGER, foreign key(user_id) references user(user_id))");
+//        DB.execSQL("create Table item_ingredient(iteming_id INTEGER primary key, name TEXT, quantity DECIMAL, unit TEXT," +
+//                    "foreign key(il_id) references list_ingredient(il_id))");
+        Cursor cursor = DB.rawQuery("Select * from item_ingredient where il_id = "+userID, null);
+
+
+
     }
 }

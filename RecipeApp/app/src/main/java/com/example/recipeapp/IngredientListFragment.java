@@ -1,5 +1,6 @@
 package com.example.recipeapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -59,6 +60,12 @@ public class IngredientListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ingredient_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_ingredient_list, container, false);
+
+        //go login activity
+        Intent myIntent = new Intent(getActivity(), UpdateRecipe.class);
+        startActivity(myIntent);
+
+        return view;
     }
 }

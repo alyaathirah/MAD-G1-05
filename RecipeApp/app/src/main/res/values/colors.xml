@@ -23,4 +23,7 @@
     <color name="colorWhiteDark">#DFDFDF</color>
     <color name="colorPrimaryLight">#CA7474</color>
     <color name="colorBackground">#F4F7F7</color>
+
+
+    <color name="orange">#FF5722</color>
 </resources>
