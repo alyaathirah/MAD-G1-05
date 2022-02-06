@@ -209,7 +209,7 @@ public class RecipeFragment extends Fragment {
                 showToast("ADDED TO INGREDIENT LIST");
                 for(int i=0; i<checkBoxes.size(); i++){
                     if(checkBoxes.get(i).isChecked())
-                        DB.addIngredientToList(user.id, ingredient_id.get(i));
+                        DB.addIngredientToList(user.id, ingredient_id.get(i), recipeID);
                 }
             }
         });

@@ -375,7 +375,7 @@ public class DBHelper extends SQLiteOpenHelper{
         return cursor;
     }
 
-    public void addIngredientToList(int userID, int irID){
+    public void addIngredientToList(int userID, int irID, int recipeID){
 //        DB.execSQL("create Table list_ingredient(il_id INTEGER primary key, user_id INTEGER, foreign key(user_id) references user(user_id))");
 //        DB.execSQL("create Table item_ingredient(iteming_id INTEGER primary key, name TEXT, quantity DECIMAL, unit TEXT," +
 //                    "foreign key(il_id) references list_ingredient(il_id))");
@@ -383,7 +383,7 @@ public class DBHelper extends SQLiteOpenHelper{
 //                "primary key(recipe_id, ir_id)," +
 //                "foreign key(recipe_id) references recipe(recipe_id))");
         //get recipe ingredient
-        Cursor recipe_ing = DB.rawQuery("Select * from recipe_ingredient where ir_id = "+irID, null);
+        Cursor recipe_ing = DB.rawQuery("Select * from recipe_ingredient where ir_id = "+irID+" and recipe_id = "+recipeID, null);
         Cursor list_ing = DB.rawQuery("Select * from item_ingredient where il_id = "+userID, null);//check current list ingredients
 
         String name = "";
